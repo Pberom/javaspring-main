@@ -1,0 +1,32 @@
+<!DOCTYPE html> //Начальная страничка, на которой происходит первичный выбор действия
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <a href="/calc">Calculator</a>
+    <a href="/res">Check result</a>
+
+    <form action="/res" method="post">
+        <div class="number1">
+            <label for="number1">Введите число</label>
+            <input type="text" name="number1" id="number1" placeholder="Введите число"> //Тут хранится поле под первую ячейку
+        </div>
+        <div class="number2">
+            <label for="number2">Введите число</label>
+            <input type="text" name="number2" id="number2" placeholder="Введите число"> //Тут хранится поле под вторую ячейку
+        </div>
+        <div class="action"> //Действие со стороны калькулятора: сложение, вычитание, умножение, деление
+            <label for="action">Выберите действие</label>
+            <select name="action" id="action">
+                <option value="+" class="select-opt" id="plus">+</option>
+                <option value="-" class="select-opt" id="minus">-</option>
+                <option value="*" class="select-opt" id="multiplication">*</option>
+                <option value="/" class="select-opt" id="division">/</option>
+            </select>
+        </div>
+        <input type="submit" value="Посчитать" name="submit"> //Кнопка для получения результата
+    </form>
+</body>
+</html>

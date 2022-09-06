@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="get" action="/laptops/search">
+    <input type="text" name="title" id="title">
+    <input type="submit" value="Найти">
+</form>
+<div th:each="el : ${laptops}">
+    <h2 th:text="${el.title}"></h2>
+    <h3 th:text="${el.OC}"></h3>
+    <p th:text="${el.Display}"></p>
+    <br/>
+    <br/>
+</div>
+    <a href="/laptops/add" class="btn btn-primary">Добавить ноутбук</a>
+</div>
+</body>
+</html>

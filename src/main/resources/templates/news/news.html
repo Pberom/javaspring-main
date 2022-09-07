@@ -15,6 +15,7 @@
 </form>
 
 <div th:each="el : ${news}">
+    <a th:href="'/news/' + ${el.id}">Подробнее...</a>
     <h2 th:text="${el.title}"></h2>
     <h3 th:text="${el.avtor}"></h3>
     <p th:text="${el.views}"></p>

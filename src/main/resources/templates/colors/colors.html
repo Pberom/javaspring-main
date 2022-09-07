@@ -15,6 +15,7 @@
 </form>
 
 <div th:each="el : ${colors}">
+    <a th:href="'/colors/' + ${el.id}">Подробнее...</a>
     <h2 th:text="${el.title}"></h2>
     <h3 th:text="${el.decription}"></h3>
     <p th:text="${el.base}"></p>

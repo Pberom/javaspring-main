@@ -17,13 +17,13 @@ public class JavaSpringController {
         return "home";
     }
 
-    @GetMapping("/calc") //Страничка под калькулятор
+    @GetMapping("/calc")
     public String Calc(Model model) {
         model.addAttribute("title", 167);
-        return "home";
+        return "calc";
     }
 
-    @GetMapping("/res") //Получение информации со странички калькулятора
+    @GetMapping("/res")
     public String Res(@RequestParam(value = "number1", required = false, defaultValue = "1") int a,
                       @RequestParam(value = "number2", required = false, defaultValue = "2") int b,
                       Model model) {
@@ -32,7 +32,7 @@ public class JavaSpringController {
         return "result";
     }
 
-    @PostMapping("/res") //Страничка под результат работы калькулятора
+    @PostMapping("/res")
     public String Result(@RequestParam(value = "number1", required = false, defaultValue = "1") int a,
                       @RequestParam(value = "number2", required = false, defaultValue = "2") int b,
                       @RequestParam(value = "action", required = false) String act,

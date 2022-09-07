@@ -4,12 +4,11 @@ import com.example.javaspring.models.news;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/news")
@@ -31,6 +30,32 @@ public class NewsController {
         return "news/add";
     }
 
+    @GetMapping("/{id}")
+    public String read (@PathVariable("id") Long id, Model model) {
+        Optional<news> news = newsRepository.findById(id);
+        ArrayList<news> arrayList = new ArrayList<>();
+        news.ifPresent(arrayList::add);
+        model.addAttribute("news", arrayList);
+        return "news/details";
+    }
+    @GetMapping("/edit/{id}")
+    public String edit (@PathVariable("id") Long id,
+                        Model model) {
+        if (!newsRepository.existsById(id)) {
+            return "redirect:/news/";
+        }
+        Optional<news> news = newsRepository.findById(id);
+        ArrayList<news> arrayList = new ArrayList<>();
+        news.ifPresent(arrayList::add);
+        model.addAttribute("news", arrayList);
+        return "news/edit";
+    }
+    @GetMapping("/delete/{id}")
+    public String delete (@PathVariable("id") Long id, Model model) {
+        newsRepository.deleteById(id);
+        return "redirect:/news/";
+    }
+
     @PostMapping("/add")
     public String AddPost(
             @RequestParam("title") String title,
@@ -42,6 +67,27 @@ public class NewsController {
     {
         news newOne = new news(title,bodytext,avtor,likes,views);
         newsRepository.save(newOne);
+        return "redirect:/news/";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit (@PathVariable("id") Long id,
+                        @RequestParam("title") String title,
+                        @RequestParam("bodytext") String text,
+                        @RequestParam("avtor") String author,
+                        @RequestParam("views") Integer views,
+                        @RequestParam("likes") Integer likes,
+                        Model model) {
+
+        news news = newsRepository.findById(id).orElseThrow();
+
+        news.setTitle(title);
+        news.setAvtor(author);
+        news.setBodytext(text);
+        news.setViews(views);
+        news.setLikes(likes);
+
+        newsRepository.save(news);
         return "redirect:/news/";
     }
 

@@ -9,7 +9,9 @@
     <input type="text" name="title" id="title">
     <input type="submit" value="Найти">
 </form>
+
 <div th:each="el : ${laptops}">
+    <a th:href="'/laptops/' + ${el.id}">Подробнее...</a>
     <h2 th:text="${el.title}"></h2>
     <h3 th:text="${el.OC}"></h3>
     <p th:text="${el.Display}"></p>

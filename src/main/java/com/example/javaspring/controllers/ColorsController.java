@@ -35,8 +35,8 @@ public class ColorsController {
         Optional<colors> colors = colorsRepository.findById(id);
         ArrayList<colors> arrayList = new ArrayList<>();
         colors.ifPresent(arrayList::add);
-        model.addAttribute("news", arrayList);
-        return "news/details";
+        model.addAttribute("colors", arrayList);
+        return "colors/details";
     }
     @GetMapping("/edit/{id}")
     public String edit (@PathVariable("id") Long id,
@@ -88,7 +88,7 @@ public class ColorsController {
         colors.setDecription(decription);
 
         colorsRepository.save(colors);
-        return "redirect:/news/";
+        return "redirect:/colors/";
     }
 
     @GetMapping("/search")

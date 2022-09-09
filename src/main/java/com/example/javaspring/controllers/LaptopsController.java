@@ -36,6 +36,14 @@ public class LaptopsController {
         laptopsRepository.deleteById(id);
         return "redirect:/laptops/";
     }
+    @GetMapping("/{id}")
+    public String read (@PathVariable("id") Long id, Model model) {
+        Optional<laptops> news = laptopsRepository.findById(id);
+        ArrayList<laptops> arrayList = new ArrayList<>();
+        news.ifPresent(arrayList::add);
+        model.addAttribute("laptops", arrayList);
+        return "laptops/details";
+    }
 
     @GetMapping("/edit/{id}")
     public String edit (@PathVariable("id") Long id,

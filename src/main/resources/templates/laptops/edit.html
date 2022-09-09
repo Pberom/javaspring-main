@@ -19,12 +19,12 @@
             <textarea id="OC" name="OC" class="form-control" placeholder="Enter the text" rows="10" th:text="${el.OC}"></textarea>
         </div>
         <div class="mb-3">
-            <label for="avtor">author</label>
-            <input type="text" id="avtor" name="avtor" class="form-control" placeholder="Enter the author" th:value="${el.GS}">
+            <label for="GS">author</label>
+            <input type="text" id="GS" name="GS" class="form-control" placeholder="Enter the author" th:value="${el.GS}">
         </div>
         <div class="mb-3">
             <label for="Dick">Dick</label>
-            <input type="number" id="Dick" name="Dick" class="form-control" placeholder="Enter the views" th:value="${el.Dick}">
+            <input type="text" id="Dick" name="Dick" class="form-control" placeholder="Enter the Dick" th:value="${el.Dick}">
         </div>
         <div class="mb-3">
             <label for="Display">Display</label>
@@ -40,7 +40,7 @@
         </div>
         <div class="d-flex">
             <button type="submit" class="btn btn-outline-success me-2">Edit!</button>
-            <a href="/news/" class="btn btn-outline-danger">Go back!</a>
+            <a href="/colors/" class="btn btn-outline-danger">Go back!</a>
         </div>
     </form>
 </div>

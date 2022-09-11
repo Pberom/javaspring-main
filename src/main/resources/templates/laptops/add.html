@@ -1,30 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>AddLaptops</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>AddNews</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </head>
 <header class="p-3 text-bg-dark" th:insert="fragments/header :: defaultheader"></header>
 <body>
-<form action="/laptops/add" method="post">
-  <input type="text" placeholder="Название" id="title" name="title">
-  <div></div>
-  <input type="text" placeholder="Операционная система" id="OC" name="OC">
-  <div></div>
-  <input type="text" placeholder="Графический процессор" id="GS" name="GS">
-  <div></div>
-  <input type="text" placeholder="Диск" id="Dick" name="Dick">
-  <div></div>
-  <input type="number" step="0.01" placeholder="Дисплей" id="Display" name="Display">
-  <div></div>
-  <input type="number" step="0.01" placeholder="Габариты" id="Gabarits" name="Gabarits">
-  <div></div>
-  <input type="number" step="0.01" placeholder="Масса" id="Mass" name="Mass">
-  <div></div>
-  <input type="submit" value="Добавить" class="btn btn-success">
+<form th:object="${laptops}" action="/news/add" method="post">
+    <p>Наименование:
+        <input type="text" placeholder="Название" id="title" name="title">
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    </p>
+    <p>Операционка:
+        <textarea type="text" placeholder="OC" id="OC" name="OC"></textarea>
+    <div th:if="${#fields.hasErrors('OC')}" th:errors="*{OC}"></div>
+    </p>
+    <p>ГП:
+        <input type="text" placeholder="GS" id="GS" name="GS">
+    <div th:if="${#fields.hasErrors('GS')}" th:errors="*{GS}"></div>
+    </p>
+    </p>
+    <p>Диск:
+        <input type="text" placeholder="Dick" id="Dick" name="Dick">
+    <div th:if="${#fields.hasErrors('Dick')}" th:errors="*{Dick}"></div>
+    </p>
+    <p>Количество просмотров:
+        <input type="number" step="0.01" placeholder="Display" id="Display" name="Display">
+    <div th:if="${#fields.hasErrors('Display')}" th:errors="*{Display}"></div>
+    </p>
+    <p>Количество лайков:
+        <input type="number" step="0.01" placeholder="Likes" id="Gabarits" name="Gabarits">
+    <div th:if="${#fields.hasErrors('Gabarits')}" th:errors="*{Gabarits}"></div>
+    </p>
+    <p>Количество лайков:
+        <input type="number" step="0.01" placeholder="Likes" id="Mass" name="Mass">
+    <div th:if="${#fields.hasErrors('Mass')}" th:errors="*{Mass}"></div>
+    </p>
+    <input type="submit" value="Добавить новость" class="btn btn-success">
 </form>
-<a href="/laptops/" class="btn btn-primary">Назад</a>
+<a href="/news/" class="btn btn-primary">Назад</a>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>AddNews</title>
@@ -8,17 +8,27 @@
 </head>
 <header class="p-3 text-bg-dark" th:insert="fragments/header :: defaultheader"></header>
 <body>
-<form action="/colors/add" method="post">
+ <form th:object="${colors}" action="/colors/add" method="post">
+  <p>
   <input type="text" placeholder="Название" id="title" name="title">
-  <div></div>
+  <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+  </p>
+  <p>
   <textarea type="text" placeholder="decription" id="decription" name="decription"></textarea>
-  <div></div>
+  <div th:if="${#fields.hasErrors('decription')}" th:errors="*{decription}"></div>
+  </p>
+  <p>
   <input type="text" placeholder="darkness" id="darkness" name="darkness">
-  <div></div>
+  <div th:if="${#fields.hasErrors('darkness')}" th:errors="*{darkness}"></div>
+  </p>
+  <p>
   <input type="number" placeholder="base" id="base" name="base">
-  <div></div>
+  <div th:if="${#fields.hasErrors('base')}" th:errors="*{base}"></div>
+  </p>
+  <p>
   <input type="number" step="0.01" placeholder="base_two" id="base_two" name="base_two">
-  <div></div>
+  <div th:if="${#fields.hasErrors('base_two')}" th:errors="*{base_two}"></div>
+  </p>
   <input type="submit" value="Добавить" class="btn btn-success">
 </form>
 <a href="/colors/" class="btn btn-primary">Назад</a>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <!--  Bootstrap css link  -->
@@ -9,27 +9,38 @@
 </head>
 <body>
 <div class="container" th:each="el : ${news}">
-    <form th:action="'/news/edit/' + ${el.id}" method="post">
-        <div class="mb-3">
+    <form th:object="${news}" th:action="'/news/edit/' + ${el.id}" method="post" >
+       <p>
             <label for="title">title</label>
             <input type="text" id="title" name="title" class="form-control" placeholder="Enter the title" th:value="${el.title}">
-        </div>
-        <div class="mb-3">
+        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
+        </p>
+        <p>
             <label for="bodytext">text</label>
-            <textarea id="bodytext" name="bodytext" class="form-control" placeholder="Enter the text" rows="10" th:text="${el.bodytext}"></textarea>
+            <textarea id="bodytext" name="bodytext" class="form-control" placeholder="Enter the text" rows="10" th:field="*{bodytext}"></textarea>
+        <div class="mb-3" th:if="${#fields.hasErrors('bodytext')}" th:errors="*{bodytext}">
         </div>
-        <div class="mb-3">
+        </p>
+        <p>
             <label for="avtor">author</label>
-            <input type="text" id="avtor" name="avtor" class="form-control" placeholder="Enter the author" th:value="${el.avtor}">
+            <input type="text" id="avtor" name="avtor" class="form-control" placeholder="Enter the author" th:field="*{avtor}">
+        <div class="mb-3" th:if="${#fields.hasErrors('avtor')}" th:errors="*{avtor}">
         </div>
-        <div class="mb-3">
+        </p>
+        <p>
+
             <label for="views">views</label>
-            <input type="number" id="views" name="views" class="form-control" placeholder="Enter the views" th:value="${el.views}">
+            <input type="number" id="views" name="views" class="form-control" placeholder="Enter the views" th:field="*{views}">
+        <div class="mb-3" th:if="${#fields.hasErrors('views')}" th:errors="*{views}">
         </div>
-        <div class="mb-3">
+        </p>
+        <p>
+
             <label for="likes">likes</label>
-            <input type="number" id="likes" name="likes" class="form-control" placeholder="Enter the likes" th:value="${el.likes}">
+            <input type="number" id="likes" name="likes" class="form-control" placeholder="Enter the likes" th:field="*{likes}">
+        <div class="mb-3" th:if="${#fields.hasErrors('likes')}" th:errors="*{likes}">
         </div>
+        </p>
         <div class="d-flex">
             <button type="submit" class="btn btn-outline-success me-2">Edit!</button>
             <a href="/news/" class="btn btn-outline-danger">Go back!</a>

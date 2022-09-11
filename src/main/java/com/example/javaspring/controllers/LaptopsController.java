@@ -5,8 +5,10 @@ import com.example.javaspring.models.news;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,7 @@ public class LaptopsController {
     @GetMapping("/add")
     public String AddGet(Model model)
     {
+        model.addAttribute("laptops", new laptops());
         return "laptops/add";
     }
 
@@ -54,11 +57,12 @@ public class LaptopsController {
         Optional<laptops> news = laptopsRepository.findById(id);
         ArrayList<laptops> arrayList = new ArrayList<>();
         news.ifPresent(arrayList::add);
-        model.addAttribute("laptops", arrayList);
+        model.addAttribute("laptops", arrayList.get(0));
         return "laptops/edit";
     }
 
-    @PostMapping("/add")
+
+   /* @PostMapping("/add")
     public String AddPost(
             @RequestParam("title") String title,
             @RequestParam("OC") String oc,
@@ -72,30 +76,32 @@ public class LaptopsController {
         laptops newOne = new laptops(title,oc,gs,dick,display,gabarits,mass);
         laptopsRepository.save(newOne);
         return "redirect:/laptops/";
+    }*/
+
+    @PostMapping("/add")
+    public String AddPost(
+            @ModelAttribute("laptops") @Valid laptops newsNews,
+            BindingResult bindingResult,
+            Model model)
+    {
+        if(bindingResult.hasErrors())
+            return "laptops/add";
+
+        laptopsRepository.save(newsNews);
+        return "redirect:/laptops/";
     }
 
     @PostMapping("/edit/{id}")
     public String edit (@PathVariable("id") Long id,
-                        @RequestParam("title") String title,
-                        @RequestParam("OC") String oc,
-                        @RequestParam("GS") String gs,
-                        @RequestParam("Dick") String dick,
-                        @RequestParam("Display") Double display,
-                        @RequestParam("Gabarits") Double gabarits,
-                        @RequestParam("Mass") Double mass,
-                        Model model) {
+                        @ModelAttribute("laptops") @Valid laptops newOne, BindingResult bindingResult, Model model) {
 
-        laptops news = laptopsRepository.findById(id).orElseThrow();
-
-        news.setTitle(title);
-        news.setDick(dick);
-        news.setDisplay(display);
-        news.setGabarits(gabarits);
-        news.setMass(mass);
-        news.setGS(gs);
-        news.setOC(oc);
-
-        laptopsRepository.save(news);
+        if (!laptopsRepository.existsById(id)) {
+            return "redirect:/laptops/";
+        }
+        if (bindingResult.hasErrors()) {
+            return "redirect:/laptops/edit/{id}";
+        }
+        laptopsRepository.save(newOne);
         return "redirect:/laptops/";
     }
 

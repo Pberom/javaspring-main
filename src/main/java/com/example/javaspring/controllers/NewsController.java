@@ -4,8 +4,10 @@ import com.example.javaspring.models.news;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,7 @@ public class NewsController {
     @Autowired
     private com.example.javaspring.repositorios.newsRepository newsRepository;
 
+    //GetMapping
     @GetMapping("/")
     public String index(Model model)
     {
@@ -27,6 +30,7 @@ public class NewsController {
     @GetMapping("/add")
     public String AddGet(Model model)
     {
+        model.addAttribute("news", new news());
         return "news/add";
     }
 
@@ -47,7 +51,7 @@ public class NewsController {
         Optional<news> news = newsRepository.findById(id);
         ArrayList<news> arrayList = new ArrayList<>();
         news.ifPresent(arrayList::add);
-        model.addAttribute("news", arrayList);
+        model.addAttribute("news", arrayList.get(0));
         return "news/edit";
     }
     @GetMapping("/delete/{id}")
@@ -56,6 +60,8 @@ public class NewsController {
         return "redirect:/news/";
     }
 
+    //PostMapping
+    /*
     @PostMapping("/add")
     public String AddPost(
             @RequestParam("title") String title,
@@ -69,28 +75,34 @@ public class NewsController {
         newsRepository.save(newOne);
         return "redirect:/news/";
     }
+    */
+    @PostMapping("/add")
+    public String AddPost(
+            @ModelAttribute("news") @Valid news newsNews,
+            BindingResult bindingResult,
+            Model model)
+    {
+        if(bindingResult.hasErrors())
+            return "news/add";
 
+        newsRepository.save(newsNews);
+        return "redirect:/news/";
+    }
     @PostMapping("/edit/{id}")
     public String edit (@PathVariable("id") Long id,
-                        @RequestParam("title") String title,
-                        @RequestParam("bodytext") String text,
-                        @RequestParam("avtor") String author,
-                        @RequestParam("views") Integer views,
-                        @RequestParam("likes") Integer likes,
-                        Model model) {
+                        @ModelAttribute("news") @Valid news newOne, BindingResult bindingResult, Model model) {
 
-        news news = newsRepository.findById(id).orElseThrow();
-
-        news.setTitle(title);
-        news.setAvtor(author);
-        news.setBodytext(text);
-        news.setViews(views);
-        news.setLikes(likes);
-
-        newsRepository.save(news);
+        if (!newsRepository.existsById(id)) {
+            return "redirect:/news/";
+        }
+        if (bindingResult.hasErrors()) {
+            return "redirect:/news/edit/{id}";
+        }
+        newsRepository.save(newOne);
         return "redirect:/news/";
     }
 
+    //Search GetMapping
     @GetMapping("/search")
     public String AddPost(
             @RequestParam("title") String title,

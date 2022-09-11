@@ -3,6 +3,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 
 
 @Entity
@@ -10,8 +11,22 @@ public class laptops {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше", min = 2, max = 1000)
+    String OC;
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше", min = 2, max = 1000)
+    String  GS;
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше", min = 2, max = 1000)
+    String  title;
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше", min = 2, max = 1000)
+    String Dick;
 
-    String OC, GS, title, Dick;
+    @Min(message = "Число не может быть отрицательным", value = 0)
+    @Max(message = "Число не может быть слишком большим!", value = 1000)
+    @NotNull(message = "Поле не может быть пустым!")
     Double Display, Gabarits, Mass;
 
     public Long getId() {

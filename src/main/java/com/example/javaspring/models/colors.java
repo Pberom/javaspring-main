@@ -4,14 +4,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 
 @Entity
 public class colors {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    String title, decription, darkness;
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше", min = 2, max = 1000)
+    String title;
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше", min = 2, max = 1000)
+    String decription;
+    @NotEmpty(message = "Поле не может быть пустым!")
+    @Size(message = "Строка не может быть меньше", min = 2, max = 1000)
+    String darkness;
+
+    @Min(message = "Число не может быть отрицательным", value = 0)
+    @Max(message = "Число не может быть слишком большим!", value = 1000)
+    @NotNull(message = "Поле не может быть пустым!")
     Integer base;
+    @Min(message = "Число не может быть отрицательным", value = 0)
+    @Max(message = "Число не может быть слишком большим!", value = 1000)
+    @NotNull(message = "Поле не может быть пустым!")
     Double base_two;
 
     public Long getId() {

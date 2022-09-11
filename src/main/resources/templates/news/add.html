@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>AddNews</title>
@@ -8,17 +8,27 @@
 </head>
 <header class="p-3 text-bg-dark" th:insert="fragments/header :: defaultheader"></header>
 <body>
-<form action="/news/add" method="post">
+<form th:object="${news}" action="/news/add" method="post">
+  <p>Заголовок:
   <input type="text" placeholder="Название" id="title" name="title">
-  <div></div>
+  <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+  </p>
+  <p>Текст новости:
   <textarea type="text" placeholder="BodyText" id="bodytext" name="bodytext"></textarea>
-  <div></div>
+  <div th:if="${#fields.hasErrors('bodytext')}" th:errors="*{bodytext}"></div>
+  </p>
+  <p>Автор:
   <input type="text" placeholder="Author" id="avtor" name="avtor">
-  <div></div>
+  <div th:if="${#fields.hasErrors('avtor')}" th:errors="*{avtor}"></div>
+  </p>
+  <p>Количество просмотров:
   <input type="number" placeholder="Views" id="views" name="views">
-  <div></div>
+  <div th:if="${#fields.hasErrors('views')}" th:errors="*{views}"></div>
+  </p>
+  <p>Количество лайков:
   <input type="number" placeholder="Likes" id="likes" name="likes">
-  <div></div>
+  <div th:if="${#fields.hasErrors('likes')}" th:errors="*{likes}"></div>
+  </p>
   <input type="submit" value="Добавить новость" class="btn btn-success">
 </form>
 <a href="/news/" class="btn btn-primary">Назад</a>

@@ -6,8 +6,10 @@ import com.example.javaspring.repositorios.colorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +29,7 @@ public class ColorsController {
     @GetMapping("/add")
     public String AddGet(Model model)
     {
+        model.addAttribute("colors", new colors());
         return "colors/add";
     }
 
@@ -44,10 +47,10 @@ public class ColorsController {
         if (!colorsRepository.existsById(id)) {
             return "redirect:/colors/";
         }
-        Optional<colors> news = colorsRepository.findById(id);
+        Optional<colors> colors = colorsRepository.findById(id);
         ArrayList<colors> arrayList = new ArrayList<>();
-        news.ifPresent(arrayList::add);
-        model.addAttribute("colors", arrayList);
+        colors.ifPresent(arrayList::add);
+        model.addAttribute("colors", arrayList.get(0));
         return "colors/edit";
     }
     @GetMapping("/delete/{id}")
@@ -56,7 +59,7 @@ public class ColorsController {
         return "redirect:/colors/";
     }
 
-    @PostMapping("/add")
+   /* @PostMapping("/add")
     public String AddPost(
             @RequestParam("title") String title,
             @RequestParam("decription") String decription,
@@ -68,26 +71,31 @@ public class ColorsController {
         colors newOne = new colors(title,decription,darkness,base,base_two);
         colorsRepository.save(newOne);
         return "redirect:/colors/";
-    }
+    }*/
+   @PostMapping("/add")
+   public String AddPost(
+           @ModelAttribute("colors") @Valid colors newsNews,
+           BindingResult bindingResult,
+           Model model)
+   {
+       if(bindingResult.hasErrors())
+           return "colors/add";
+
+       colorsRepository.save(newsNews);
+       return "redirect:/colors/";
+   }
 
     @PostMapping("/edit/{id}")
     public String edit (@PathVariable("id") Long id,
-                        @RequestParam("title") String title,
-                        @RequestParam("decription") String decription,
-                        @RequestParam("darkness") String darkness,
-                        @RequestParam("base") Integer base,
-                        @RequestParam("base_two") Double base_two,
-                        Model model) {
+                        @ModelAttribute("colors") @Valid colors newOne, BindingResult bindingResult, Model model) {
 
-        colors colors = colorsRepository.findById(id).orElseThrow();
-
-        colors.setTitle(title);
-        colors.setBase(base);
-        colors.setDarkness(darkness);
-        colors.setBase_two(base_two);
-        colors.setDecription(decription);
-
-        colorsRepository.save(colors);
+        if (!colorsRepository.existsById(id)) {
+            return "redirect:/colors/";
+        }
+        if (bindingResult.hasErrors()) {
+            return "redirect:/colors/edit/{id}";
+        }
+        colorsRepository.save(newOne);
         return "redirect:/colors/";
     }
 

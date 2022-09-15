@@ -1,10 +1,8 @@
 package com.example.javaspring.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.Collection;
 
 @Entity
 public class colors {
@@ -29,6 +27,37 @@ public class colors {
     @Max(message = "Число не может быть слишком большим!", value = 1000)
     @NotNull(message = "Поле не может быть пустым!")
     Double base_two;
+    @OneToMany (mappedBy = "name", fetch = FetchType.EAGER)
+    Collection<Worker> workers;
+
+    public Collection<Worker> getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(Collection<Worker> students) {
+        this.workers = students;
+    }
+
+    public laptops getLaptops(laptops laptops) {
+        return laptops;
+    }
+
+    public void setLaptops(laptops laptops) {
+        this.laptops = laptops;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER)
+    public laptops laptops;
+
+    public colors(String title, String decription, String darkness, Integer base, Double base_two, laptops laptops, Collection<Worker> workers) {
+        this.title = title;
+        this.decription = decription;
+        this.darkness = darkness;
+        this.base = base;
+        this.base_two = base_two;
+        this.laptops = laptops;
+        this.workers = workers;
+    }
 
     public Long getId() {
         return id;
@@ -75,14 +104,6 @@ public class colors {
     }
 
     public void setBase_two(Double base_two) {
-        this.base_two = base_two;
-    }
-
-    public colors(String title, String decription, String darkness, Integer base, Double base_two) {
-        this.title = title;
-        this.decription = decription;
-        this.darkness = darkness;
-        this.base = base;
         this.base_two = base_two;
     }
 

@@ -1,13 +1,20 @@
 package com.example.javaspring.models;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 
 @Entity
 public class laptops {
+    @OneToOne(fetch = FetchType.EAGER)
+    public colors colors;
+
+    public colors getColors() {
+        return colors;
+    }
+
+    public void getColors(colors colors) {
+        this.colors = colors;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -92,7 +99,6 @@ public class laptops {
     public void setMass(Double mass) {
         Mass = mass;
     }
-
     public laptops(String OC, String GS, String title, String dick, Double display, Double gabarits, Double mass) {
         this.OC = OC;
         this.GS = GS;
